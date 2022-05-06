@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/MarinaKaeufer/BarmecideTeamProfileGenerator#readme",
   "dependencies": {
+    "fs": "^0.0.1-security",
     "inquirer": "^8.2.4",
     "jest": "^28.0.3"
   }
