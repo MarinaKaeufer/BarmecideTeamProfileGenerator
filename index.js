@@ -2,6 +2,11 @@
 var inquirer = require('inquirer');
 const fs = require('fs');
 
+// Import classes
+const Manager = require('./src/manager');
+const Engineer = require('./src/engineer');
+const Intern = require('./src/intern');
+
 // Import helper method
 var generateWebpage = require('./src/utils/generateWebpage.js');
     
@@ -104,24 +109,35 @@ function init() {
     inquirer
         .prompt(manager_questions)
         .then((manager_responses) => {
-            inquirer
-                .prompt(new_employee)
-                .then((new_employee_responses) => {
-                    var nextPrompt = [];
-                
-                    if(new_employee_responses.addEmployee === "Add Engineer"){
-                        nextPrompt = engineer_questions;
-                    } else if(new_employee_responses.addEmployee === "Add Intern"){ 
-                        nextPrompt = intern_questions;
-                    }else {
-                        console.log("We are generating the html file..."); 
-                    }
-                    inquirer
-                        .prompt(nextPrompt)
-                        .then((new_employee_responses) => {
-
-                        })
-                })
+                inquirer
+                    .prompt(new_employee)
+                    .then((new_employee_responses) => {
+                        if(new_employee_responses.addEmployee === "Add Engineer"){
+                            inquirer
+                            .prompt(engineer_questions)
+                            .then((new_employee_responses) =>   {
+                                // Create engineer object'
+                                const name = new_employee_responses.name;
+                                const id = new_employee_responses.id;
+                                const email = new_employee_responses.email;
+                                const github = new_employee_responses.github;
+                                const engineer = new Engineer(name, id, email, github);
+                            })
+                        } else if(new_employee_responses.addEmployee === "Add Intern"){ 
+                            inquirer
+                            .prompt(intern_questions)
+                            .then((new_employee_responses) =>   {
+                                // Create intern object
+                                const name = new_employee_responses.name;
+                                const id = new_employee_responses.id;
+                                const email = new_employee_responses.email;
+                                const school = new_employee_responses.school;
+                                const intern = new Intern(name, id, email, github);
+                            })
+                        }else {
+                            console.log("We are generating the html file..."); 
+                        }  
+                    })   
             // const html = generateWebpage(responses);
             // writeToFile("index.html",html);
         })
