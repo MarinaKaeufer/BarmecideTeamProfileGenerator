@@ -3,7 +3,7 @@ var inquirer = require('inquirer');
 const fs = require('fs');
 
 // Import helper method
-var generateWebpage = require('./utils/generateWebpage.js');
+var generateWebpage = require('./src/utils/generateWebpage.js');
     
 // TODO: Create an array of questions (objects) for user input
 const manager_questions = [
@@ -29,7 +29,7 @@ const manager_questions = [
     }
 ];
 
-const add_employee = [
+const new_employee = [
     { 
         type: "list",
         name: "addEmployee",
@@ -105,10 +105,22 @@ function init() {
         .prompt(manager_questions)
         .then((manager_responses) => {
             inquirer
-                .prompt(add_employee)
-                .then((add_responses) => {
-                    console.log(`manager responses ${manager_responses}`);
-                    console.log(`add employee responses ${add_responses}`);
+                .prompt(new_employee)
+                .then((new_employee_responses) => {
+                    var nextPrompt = [];
+                
+                    if(new_employee_responses.addEmployee === "Add Engineer"){
+                        nextPrompt = engineer_questions;
+                    } else if(new_employee_responses.addEmployee === "Add Intern"){ 
+                        nextPrompt = intern_questions;
+                    }else {
+                        console.log("We are generating the html file..."); 
+                    }
+                    inquirer
+                        .prompt(nextPrompt)
+                        .then((new_employee_responses) => {
+
+                        })
                 })
             // const html = generateWebpage(responses);
             // writeToFile("index.html",html);
