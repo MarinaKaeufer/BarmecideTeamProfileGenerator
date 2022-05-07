@@ -88,6 +88,9 @@ const intern_questions = [
         message: "What is intern's school?"
     }
 ]
+
+var newEmployees = [];
+
 // TODO: Create a function to write the html file 
 function writeToFile(fileName, data) {
     fs.writeFile(fileName, data, err => {
@@ -109,6 +112,12 @@ function init() {
     inquirer
         .prompt(manager_questions)
         .then((manager_responses) => {
+            const name = manager_responses.name;
+            const id = manager_responses.id;
+            const email = manager_responses.email;
+            const officeNumber = manager_responses.officeNumber;
+            const manager = new Manager(name, id, email, officeNumber);
+            newEmployees.push(manager);
                 inquirer
                     .prompt(new_employee)
                     .then((new_employee_responses) => {
@@ -122,6 +131,9 @@ function init() {
                                 const email = new_employee_responses.email;
                                 const github = new_employee_responses.github;
                                 const engineer = new Engineer(name, id, email, github);
+                                newEmployees.push(engineer);
+                                const html = generateWebpage(newEmployees);
+                                writeToFile("index.html",html);
                             })
                         } else if(new_employee_responses.addEmployee === "Add Intern"){ 
                             inquirer
@@ -132,14 +144,15 @@ function init() {
                                 const id = new_employee_responses.id;
                                 const email = new_employee_responses.email;
                                 const school = new_employee_responses.school;
-                                const intern = new Intern(name, id, email, github);
+                                const intern = new Intern(name, id, email, school);
+                                newEmployees.push(intern);
+                                const html = generateWebpage(newEmployees);
+                                writeToFile("index.html",html);
                             })
-                        }else {
-                            console.log("We are generating the html file..."); 
-                        }  
+                        }
+                        console.log("We are generating the html file..."); 
+                        
                     })   
-            // const html = generateWebpage(responses);
-            // writeToFile("index.html",html);
         })
         .catch((error) => {
             console.log("Something went wrong " + error);
