@@ -5,23 +5,27 @@ function generateWebpage(dataArr) {
 
       //employee = {name: "", id: ...}
       var extraInfo = "";
+      console.log(`employee in generate ${JSON.stringify(employee)}`);
       if(employee.getRole() === "Manager"){
-        extraInfo = employee.officeNumber;
+        console.log(`Manager info`);
+        extraInfo = employee.getOfficeNumber();
       }
       if(employee.getRole() === "Intern"){
-        extraInfo = employee.school;
+        console.log(`Intern info`);
+        extraInfo = employee.getSchool();
       }
       if(employee.getRole() === "Engineer"){
-        extraInfo = employee.github;
+        console.log(`Engineer info`);
+        extraInfo = employee.getGithub();
       }
       employeeCards += `
       <div class="card">
           <img src="https://www.w3schools.com/howto/img_avatar2.png" alt="Avatar" style="width:100%">
           <div class="container">
-            <h4><b>${employee.name}</b></h4>
+            <h4><b>${employee.getName()}</b></h4>
             <p>${employee.getRole()}</p>
-            <p>${employee.id}</p>
-            <p>${employee.email}</p>
+            <p>${employee.getId()}</p>
+            <p>${employee.getEmail()}</p>
             <p>${extraInfo}</p>
           </div>
       </div>`

@@ -14,22 +14,22 @@ var generateWebpage = require('./src/utils/generateWebpage.js');
 const manager_questions = [
     {
         type: "input", 
-        name: "manager-name",
+        name: "managerName",
         message: "What is the name of the manager?"
     },
     { 
         type: "input",
-        name: "manager-id",
+        name: "managerId",
         message: "What is the manager's id?"
     },
     { 
         type: "input",
-        name: "manager-email",
+        name: "managerEmail",
         message: "What is the manager's email?"
     },
     { 
         type: "input",
-        name: "manager-officeNumber",
+        name: "managerOfficeNumber",
         message: "What is the manager's office number?"
     }
 ];
@@ -46,22 +46,22 @@ const new_employee = [
 const engineer_questions = [
     {
         type: "input", 
-        name: "engineer-name",
+        name: "engineerName",
         message: "What is the name of the engineer?"
     },
     {
         type: "input", 
-        name: "engineer-id",
+        name: "engineerId",
         message: "What is engineer's id?"
     },
     {
         type: "input", 
-        name: "engineer-email",
+        name: "engineerEmail",
         message: "What is engineer's email?"
     },
     {
         type: "input", 
-        name: "engineer-github",
+        name: "engineerGithub",
         message: "What is engineer's github username?"
     }
 ]
@@ -69,22 +69,22 @@ const engineer_questions = [
 const intern_questions = [
     {
         type: "input", 
-        name: "intern-name",
+        name: "internName",
         message: "What is the name of the intern?"
     },
     {
         type: "input", 
-        name: "intern-id",
+        name: "internId",
         message: "What is intern's id?"
     },
     {
         type: "input", 
-        name: "intern-email",
+        name: "internEmail",
         message: "What is intern's email?"
     },
     {
         type: "input", 
-        name: "intern-school",
+        name: "internSchool",
         message: "What is intern's school?"
     }
 ]
@@ -110,10 +110,10 @@ async function init() {
 
     // Display question
     var manager_responses = await inquirer.prompt(manager_questions);
-    const name = manager_responses.name;
-    const id = manager_responses.id;
-    const email = manager_responses.email;
-    const officeNumber = manager_responses.officeNumber;
+    const name = manager_responses.managerName;
+    const id = manager_responses.managerId;
+    const email = manager_responses.managerEmail;
+    const officeNumber = manager_responses.managerOfficeNumber;
     const manager = new Manager(name, id, email, officeNumber);
     newEmployees.push(manager);
     
@@ -121,24 +121,27 @@ async function init() {
     if(new_employee_responses.addEmployee === "Add Engineer"){
         var new_employee_responses = await inquirer.prompt(engineer_questions);
         // Create engineer object'
-        const name = new_employee_responses.name;
-        const id = new_employee_responses.id;
-        const email = new_employee_responses.email;
-        const github = new_employee_responses.github;
+        const name = new_employee_responses.engineerName;
+        const id = new_employee_responses.engineerId;
+        const email = new_employee_responses.engineerEmail;
+        const github = new_employee_responses.engineerGithub;
         const engineer = new Engineer(name, id, email, github);
         newEmployees.push(engineer);
     } else if(new_employee_responses.addEmployee === "Add Intern"){ 
         var new_employee_responses = await inquirer.prompt(intern_questions);
         // Create intern object
-        const name = new_employee_responses.name;
-        const id = new_employee_responses.id;
-        const email = new_employee_responses.email;
-        const school = new_employee_responses.school;
+        console.log(`new_employee_responses ${JSON.stringify(new_employee_responses)}`);
+        const name = new_employee_responses.internName;
+        const id = new_employee_responses.internId;
+        const email = new_employee_responses.internEmail;
+        const school = new_employee_responses.internSchool;
+       
         const intern = new Intern(name, id, email, school);
         newEmployees.push(intern);
     }
     
     console.log("We are generating the html file...");  
+    console.log(`employee in generate ${JSON.stringify(newEmployees)}`);
     const html = generateWebpage(newEmployees);
     writeToFile("index.html",html);
 }
