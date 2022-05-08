@@ -101,7 +101,7 @@ function writeToFile(fileName, data) {
 }
 
 // TODO: Create a function to initialize app
-function init() {
+async function init() {
     console.log(` `);
     console.log(` `);
     console.log(`Hi and welcome to employee page generator.`);
@@ -109,55 +109,39 @@ function init() {
     console.log(` `);
 
     // Display question
-    inquirer
-        .prompt(manager_questions)
-        .then((manager_responses) => {
-            const name = manager_responses.name;
-            const id = manager_responses.id;
-            const email = manager_responses.email;
-            const officeNumber = manager_responses.officeNumber;
-            const manager = new Manager(name, id, email, officeNumber);
-            newEmployees.push(manager);
-                inquirer
-                    .prompt(new_employee)
-                    .then((new_employee_responses) => {
-                        if(new_employee_responses.addEmployee === "Add Engineer"){
-                            inquirer
-                            .prompt(engineer_questions)
-                            .then((new_employee_responses) =>   {
-                                // Create engineer object'
-                                const name = new_employee_responses.name;
-                                const id = new_employee_responses.id;
-                                const email = new_employee_responses.email;
-                                const github = new_employee_responses.github;
-                                const engineer = new Engineer(name, id, email, github);
-                                newEmployees.push(engineer);
-                                const html = generateWebpage(newEmployees);
-                                writeToFile("index.html",html);
-                            })
-                        } else if(new_employee_responses.addEmployee === "Add Intern"){ 
-                            inquirer
-                            .prompt(intern_questions)
-                            .then((new_employee_responses) =>   {
-                                // Create intern object
-                                const name = new_employee_responses.name;
-                                const id = new_employee_responses.id;
-                                const email = new_employee_responses.email;
-                                const school = new_employee_responses.school;
-                                const intern = new Intern(name, id, email, school);
-                                newEmployees.push(intern);
-                                const html = generateWebpage(newEmployees);
-                                writeToFile("index.html",html);
-                            })
-                        }
-                        console.log("We are generating the html file..."); 
-                        
-                    })   
-        })
-        .catch((error) => {
-            console.log("Something went wrong " + error);
-        });
+    var manager_responses = await inquirer.prompt(manager_questions);
+    const name = manager_responses.name;
+    const id = manager_responses.id;
+    const email = manager_responses.email;
+    const officeNumber = manager_responses.officeNumber;
+    const manager = new Manager(name, id, email, officeNumber);
+    newEmployees.push(manager);
+    
+    var new_employee_responses = await inquirer.prompt(new_employee);
+    if(new_employee_responses.addEmployee === "Add Engineer"){
+        var new_employee_responses = await inquirer.prompt(engineer_questions);
+        // Create engineer object'
+        const name = new_employee_responses.name;
+        const id = new_employee_responses.id;
+        const email = new_employee_responses.email;
+        const github = new_employee_responses.github;
+        const engineer = new Engineer(name, id, email, github);
+        newEmployees.push(engineer);
+    } else if(new_employee_responses.addEmployee === "Add Intern"){ 
+        var new_employee_responses = await inquirer.prompt(intern_questions);
+        // Create intern object
+        const name = new_employee_responses.name;
+        const id = new_employee_responses.id;
+        const email = new_employee_responses.email;
+        const school = new_employee_responses.school;
+        const intern = new Intern(name, id, email, school);
+        newEmployees.push(intern);
     }
+    
+    console.log("We are generating the html file...");  
+    const html = generateWebpage(newEmployees);
+    writeToFile("index.html",html);
+}
 
 // Function call to initialize app
 init();
