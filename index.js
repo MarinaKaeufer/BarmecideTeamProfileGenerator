@@ -3,9 +3,9 @@ var inquirer = require('inquirer');
 const fs = require('fs');
 
 // Import classes
-const Manager = require('./src/manager');
-const Engineer = require('./src/engineer');
-const Intern = require('./src/intern');
+const Manager = require('./lib/manager');
+const Engineer = require('./lib/engineer');
+const Intern = require('./lib/intern');
 
 // Import helper method
 var generateWebpage = require('./src/utils/generateWebpage.js');
