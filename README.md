@@ -17,7 +17,7 @@ WHEN I start the application THEN I am prompted to enter the team manager’s na
 
 ## Walkthrough Video
 
-https://drive.google.com/file/d/1EDayXycH1S4JZJPynQtDBSWOEHib_Hkw/view
+https://drive.google.com/file/d/1LZJfdGVzXB0Tg1rb9oqkPKIkNCSpYHwD/view
 
 
 ## Contribution
